@@ -9,6 +9,7 @@ public class WeatherAppResponse {
     String description;
     String temperature;
     String pressure;
+    Error error;
 
     public String getCity() {
         return city;
@@ -58,6 +59,7 @@ public class WeatherAppResponse {
         this.windSpeed = windSpeed;
     }
 
+
     String humidity;
     String windSpeed;
 
@@ -72,8 +74,6 @@ public class WeatherAppResponse {
 
     }
 
-
-
     public static final class Builder {
 
         String city;
@@ -82,6 +82,7 @@ public class WeatherAppResponse {
         String pressure;
         String humidity;
         String windSpeed;
+        Error error;
 
 
         public Builder withCity(String city) {
@@ -114,6 +115,11 @@ public class WeatherAppResponse {
             return this;
         }
 
+        public Builder withWithError(Error error) {
+            this.error = error;
+            return this;
+        }
+
         public WeatherAppResponse build() {
             WeatherAppResponse weatherAppResponse = new WeatherAppResponse();
 
@@ -123,6 +129,7 @@ public class WeatherAppResponse {
             weatherAppResponse.pressure = this.pressure;
             weatherAppResponse.humidity = this.humidity;
             weatherAppResponse.windSpeed = this.windSpeed;
+            weatherAppResponse.error = this.error;
 
             return weatherAppResponse;
         }

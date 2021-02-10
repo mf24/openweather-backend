@@ -1,10 +1,9 @@
 package com.mfrac.weatherapp.Controller;
 
 import com.mfrac.weatherapp.Config.OpenWeatherConfiguration;
-import com.mfrac.weatherapp.Model.ForecastChangedName;
-import com.mfrac.weatherapp.Model.WeatherAppResponse;
+import com.mfrac.weatherapp.Mapper.WeatherAppMapper;
 import com.mfrac.weatherapp.Model.ForecastResponse;
-import com.mfrac.weatherapp.Service.WeatherAppService;
+import com.mfrac.weatherapp.Model.WeatherAppResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
@@ -31,41 +30,24 @@ public class OpenWeatherController {
     HttpEntity<String> httpEntity;
 
     @Autowired
-    WeatherAppService weatherAppService;
+    WeatherAppMapper weatherAppMapper;
 
     @Autowired
     OpenWeatherConfiguration openWeatherConfiguration;
 
-   /* @GetMapping("/city/{id}")
-    public ResponseEntity<WeatherAppResponse> getByCityId(@PathVariable String id, @RequestParam(required = false, defaultValue = "en") String lang,
-                                                @RequestParam(required = false, defaultValue = "json") String mode) {
-
-        ResponseEntity<ForecastResponse> response = restTemplate.exchange(openWeatherConfiguration.getUrl() + "/weather?id={id}&appid={appid}&lang={lang}&mode={mode}",
-                HttpMethod.GET, httpEntity, ForecastResponse.class, id, openWeatherConfiguration.getToken(), lang, mode);
-
-*//*        ResponseEntity<String> response = restTemplate.exchange(openWeatherConfiguration.getUrl() + "/weather?id={id}&appid={appid}&lang={lang}&mode={mode}",
-                HttpMethod.GET, httpEntity, String.class, id, openWeatherConfiguration.getToken(), lang, mode);*//*
-
-        WeatherAppResponse weatherAppResponse = weatherAppService.mapToBasicData(response.getBody());
-        //TODO: response validation and mapping
-
-        return new ResponseEntity<>(new WeatherAppResponse(), HttpStatus.OK);
-//        return new ResponseEntity<>(new Forecast(), HttpStatus.OK);
-    }*/
-
     @GetMapping("/city/{id}")
     public ResponseEntity<WeatherAppResponse> getByCityId(@PathVariable String id, @RequestParam(required = false, defaultValue = "en") String lang,
-                                                           @RequestParam(required = false, defaultValue = "json") String mode) {
+                                                          @RequestParam(required = false, defaultValue = "json") String mode) {
 
         ResponseEntity<ForecastResponse> response = restTemplate.exchange(openWeatherConfiguration.getUrl() + "/weather?id={id}&appid={appid}&lang={lang}&mode={mode}",
                 HttpMethod.GET, httpEntity, ForecastResponse.class, id, openWeatherConfiguration.getToken(), lang, mode);
 
+        WeatherAppResponse weatherAppResponse = weatherAppMapper.mapBasicForecastData(response);
 
-        WeatherAppResponse weatherAppResponse = weatherAppService.mapToBasicData(response.getBody());
+        return new ResponseEntity<>(weatherAppResponse, HttpStatus.OK);
+
         //TODO: response validation and mapping
 
-
-        return new ResponseEntity<WeatherAppResponse>(weatherAppResponse,  HttpStatus.OK);
     }
 
     @PostMapping("/alert")
