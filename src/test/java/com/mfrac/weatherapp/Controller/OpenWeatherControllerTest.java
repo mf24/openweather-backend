@@ -28,6 +28,8 @@ public class OpenWeatherControllerTest {
     HttpEntity<String> httpEntity;
     @Mock
     OpenWeatherConfiguration openWeatherConfiguration;
+    @Mock
+    WeatherAppMapper weatherAppMapper;
 
     @InjectMocks
     OpenWeatherController openWeatherController;
@@ -37,6 +39,8 @@ public class OpenWeatherControllerTest {
         //given
         when(openWeatherConfiguration.getToken()).thenReturn("token");
         when(openWeatherConfiguration.getUrl()).thenReturn("url");
+        when(weatherAppMapper.mapBasicForecastData(any())).thenReturn(new WeatherAppResponse.Builder().build());
+
         when(restTemplate.exchange("url/weather?id={id}&appid={appid}&lang={lang}&mode={mode}", HttpMethod.GET, httpEntity, ForecastResponse.class, "756135", "token", "en", "json"))
                 .thenReturn(new ResponseEntity<>(HttpStatus.OK));
         //when
