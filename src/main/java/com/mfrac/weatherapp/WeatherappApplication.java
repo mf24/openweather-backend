@@ -3,7 +3,6 @@ package com.mfrac.weatherapp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -12,7 +11,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @SpringBootApplication
-@CrossOrigin(origins = "*")
 public class WeatherappApplication {
 
 	public static void main(String[] args) {
@@ -23,7 +21,7 @@ public class WeatherappApplication {
 	public CorsFilter corsFilter() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.setAllowedOrigins(Collections.singletonList("*"));
+		corsConfiguration.setAllowedOrigins(Collections.singletonList("https://model-almanac-304221.ew.r.appspot.com"));
 		corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
 				"Accept", "Authorization", "Origin, Accept", "X-Requested-With",
 				"Access-Control-Request-Method", "Access-Control-Request-Headers"));
